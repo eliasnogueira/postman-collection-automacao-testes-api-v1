@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "952eece2-5d71-4d70-807e-2e63343fc95c",
+		"_postman_id": "ef9aceff-77f7-425f-85c8-55e6885bd4c9",
 		"name": "Testes para uma API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -87,29 +87,6 @@
 					"name": "cenarios negativos",
 					"item": [
 						{
-							"name": "Retornar HTTP 404 quando simulação não existe para remoção",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8088/api/v1/simulacoes/99999999999",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8088",
-									"path": [
-										"api",
-										"v1",
-										"simulacoes",
-										"99999999999"
-									]
-								},
-								"description": "Deve retornar uma mensagem de erro quando tentamos deletar uma simulação que não possui o CPF informado e o status code 404."
-							},
-							"response": []
-						},
-						{
 							"name": "Retornar mensagem erro quando CPF não possui simulação",
 							"request": {
 								"method": "GET",
@@ -133,12 +110,12 @@
 							"response": []
 						},
 						{
-							"name": "Retornar HTTP 404 quando não há simulações registradas",
+							"name": "Retornar mensagem de erro quando nome não encontrado",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"raw": "http://localhost:8088/api/v1/simulacoes?nome=João da Silva",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -148,9 +125,15 @@
 										"api",
 										"v1",
 										"simulacoes"
+									],
+									"query": [
+										{
+											"key": "nome",
+											"value": "João da Silva"
+										}
 									]
 								},
-								"description": "Deve retornar o status code 404 apenas se não houver simulações registradas"
+								"description": "Deve retornar o status code 404 e uma mensagem de nome não encontrado para uma pesquisa de um nome não existente nas simulações"
 							},
 							"response": []
 						},
@@ -401,6 +384,29 @@
 									]
 								},
 								"description": "Deve retornar o status code 404 e uma mensagem de CPF não encontrado."
+							},
+							"response": []
+						},
+						{
+							"name": "Retornar HTTP 404 quando simulação não existe para remoção",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes/99999999999",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes",
+										"99999999999"
+									]
+								},
+								"description": "Deve retornar uma mensagem de erro quando tentamos deletar uma simulação que não possui o CPF informado e o status code 404."
 							},
 							"response": []
 						}
