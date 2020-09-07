@@ -1,0 +1,547 @@
+{
+	"info": {
+		"_postman_id": "952eece2-5d71-4d70-807e-2e63343fc95c",
+		"name": "Testes para uma API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Restrições",
+			"item": [
+				{
+					"name": "Consultar CPF com restrição v1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/v1/restricoes/97093236014",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"restricoes",
+								"97093236014"
+							]
+						},
+						"description": "Deve retornar o status code 200 e uma mensagem informando que o CPF possui uma restrição."
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar CPF sem restrição v1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/v1/restricoes/23726391048",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"restricoes",
+								"23726391048"
+							]
+						},
+						"description": "Deve retornar o status code 404 e nenhum dado de resposta (response body)."
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar CPF com restrição v2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/v2/restricoes/97093236014",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v2",
+								"restricoes",
+								"97093236014"
+							]
+						},
+						"description": "Deve retornar o status code 200 e uma mensagem informando que o CPF possui uma restrição e o tipo da restrição."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Simulações",
+			"item": [
+				{
+					"name": "cenarios negativos",
+					"item": [
+						{
+							"name": "Retornar HTTP 404 quando simulação não existe para remoção",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes/99999999999",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes",
+										"99999999999"
+									]
+								},
+								"description": "Deve retornar uma mensagem de erro quando tentamos deletar uma simulação que não possui o CPF informado e o status code 404."
+							},
+							"response": []
+						},
+						{
+							"name": "Retornar mensagem erro quando CPF não possui simulação",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes/99999999999",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes",
+										"99999999999"
+									]
+								},
+								"description": "Deve retornar uma mensagem quando o CPF informado não possiu simulações e o status code 404."
+							},
+							"response": []
+						},
+						{
+							"name": "Retornar HTTP 404 quando não há simulações registradas",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes"
+									]
+								},
+								"description": "Deve retornar o status code 404 apenas se não houver simulações registradas"
+							},
+							"response": []
+						},
+						{
+							"name": "Tentar criar uma simulação com CPF já existente",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Roberto\",\n    \"cpf\": \"17822386034\",\n    \"email\": \"roberto@gmail.com\",\n    \"valor\": 15000,\n    \"parcelas\": 10,\n    \"seguro\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes"
+									]
+								},
+								"description": "Deve retornar o status code 409 e uma mensagem de erro sobre CPF duplicado."
+							},
+							"response": []
+						},
+						{
+							"name": "Tentar criar uma simulação sem os atributos no body",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes"
+									]
+								},
+								"description": "Deve retornar o status code 422 e a mensagem \"Uma das opções de Seguro devem ser selecionadas\".\nPara os demais atributos deve retornar \"<nome do atributo> não pode ser vazio."
+							},
+							"response": []
+						},
+						{
+							"name": "Tentar criar uma simulação com valor abaixo do esperado",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Roberto\",\n    \"cpf\": \"74820501274\",\n    \"email\": \"roberto@gmail.com\",\n    \"valor\": 999,\n    \"parcelas\": 10,\n    \"seguro\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes"
+									]
+								},
+								"description": "Deve retornar o status code 422 e uma mensagem de erro informando que o valor deve ser maior que R$ 1.000"
+							},
+							"response": []
+						},
+						{
+							"name": " Tentar criar uma simulação com valor acima do esperado",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Roberto\",\n    \"cpf\": \"74820501274\",\n    \"email\": \"roberto@gmail.com\",\n    \"valor\": 40001,\n    \"parcelas\": 10,\n    \"seguro\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes"
+									]
+								},
+								"description": "Deve retornar o status code 422 e uma mensagem de erro informando que o valor deve ser menor que R$ 40.000"
+							},
+							"response": []
+						},
+						{
+							"name": "Tentar criar uma simuação com parcelas menores que o esperado",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Roberto\",\n    \"cpf\": \"74820501274\",\n    \"email\": \"roberto@gmail.com\",\n    \"valor\": 15000.00,\n    \"parcelas\": 1,\n    \"seguro\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes"
+									]
+								},
+								"description": "Deve retornar o status code 422 e uma mensagem de erro informando que as parcelas devem ser maior que 2"
+							},
+							"response": []
+						},
+						{
+							"name": " Tentar criar uma simulação com parcelas maiores que o esperado",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Roberto\",\n    \"cpf\": \"74820501274\",\n    \"email\": \"roberto@gmail.com\",\n    \"valor\": 15000.00,\n    \"parcelas\": 49,\n    \"seguro\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes"
+									]
+								},
+								"description": "Deve retornar o status code 422 e uma mensagem de erro informando que as parcelas deve ser menores que R$ 48"
+							},
+							"response": []
+						},
+						{
+							"name": "Tentar atualizar uma simulação com um CPF já existente",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cpf\": \"66414919004\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes/17822386034",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes",
+										"17822386034"
+									]
+								},
+								"description": "Deve retornar o status code 409 e uma mensagem informando que o CPF é duplicado"
+							},
+							"response": []
+						},
+						{
+							"name": "Tentar atualizar uma simulação que não existe",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cpf\": \"66414919004\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/v1/simulacoes/99999999999",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"v1",
+										"simulacoes",
+										"99999999999"
+									]
+								},
+								"description": "Deve retornar o status code 404 e uma mensagem de CPF não encontrado."
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Retornar todas as simulações existentes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/v1/simulacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"simulacoes"
+							]
+						},
+						"description": "Deve retornar uma lista (array) de todas as simulações existentes."
+					},
+					"response": []
+				},
+				{
+					"name": "Retornar uma simulação através do CPF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/v1/simulacoes/17822386034",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"simulacoes",
+								"17822386034"
+							]
+						},
+						"description": "Deve retornar o status code 200 e os dados de simulação através da pasquisa de um CPF existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Criar uma nova simulação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Roberto\",\n    \"cpf\": \"74820501274\",\n    \"email\": \"roberto@gmail.com\",\n    \"valor\": 15000.00,\n    \"parcelas\": 10,\n    \"seguro\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/v1/simulacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"simulacoes"
+							]
+						},
+						"description": "Deve retornar o status code 201 e todos os dados da simulação enviada como payload (body)."
+					},
+					"response": []
+				},
+				{
+					"name": "Remover uma simulação existente através do CPF",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/v1/simulacoes/66414919004",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"simulacoes",
+								"66414919004"
+							]
+						},
+						"description": "Deve retornar o status code 204, sem conteúdo de retorno."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar uma simulação com sucesso",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"NOVO_EMAIL@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/v1/simulacoes/17822386034",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"simulacoes",
+								"17822386034"
+							]
+						},
+						"description": "Deve retornar status code 200 e a simulação com todos os dados atualizados."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
