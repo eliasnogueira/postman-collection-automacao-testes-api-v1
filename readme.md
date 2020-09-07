@@ -6,6 +6,6 @@ Esta coleção do Postman pertence ao livro [Testes para uma API com Postman e R
 
 ## Como fazer a importação
 
-1. Faca o download to arquivo `testes-api-rest-postman-collection.json`
+1. Faça o download to arquivo `testes-api-rest-postman-collection.json`
 2. Abra o Postman
 3. Selecione o menu *File -> Import*
