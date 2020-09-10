@@ -388,7 +388,7 @@
 							"response": []
 						},
 						{
-							"name": "Retornar HTTP 404 quando simulação não existe para remoção",
+							"name": "Tentar remover uma simulação que não existe",
 							"request": {
 								"method": "DELETE",
 								"header": [],
