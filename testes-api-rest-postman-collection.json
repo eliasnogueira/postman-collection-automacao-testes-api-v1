@@ -87,7 +87,7 @@
 					"name": "cenarios negativos",
 					"item": [
 						{
-							"name": "Retornar mensagem erro quando CPF não possui simulação",
+							"name": "Retornar mensagem de erro quando não existir uma simulação",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -169,7 +169,7 @@
 							"response": []
 						},
 						{
-							"name": "Tentar criar uma simulação sem os atributos no body",
+							"name": "Tentar criar uma simulação sem os atributos obrigatórios",
 							"request": {
 								"method": "POST",
 								"header": [],
